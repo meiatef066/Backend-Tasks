@@ -33,18 +33,14 @@ public class BookService {
     public Book save( Book book ) {
         return this.bookRepository.save(book);
     }
-
-    public Optional<Book> update(String id, Book book ) {
-        Book book1=this.bookRepository.findById(Long.valueOf(id)).get();
-        if(book1.getTitle()!=null)
-        book1.setTitle(book.getTitle());
-        if(book1.getAuthor()!=null)
-        book1.setAuthor(book.getAuthor());
-        if(book1.getIsbn()!=null)
-        book1.setIsbn(book.getIsbn());
-        if(book1.getPublishedDate()!=null)
-        book1.setPublishedDate(book.getPublishedDate());
-        return Optional.of(this.bookRepository.save(book1));
+    public Optional<Book> update(Long id, Book book) {
+        return bookRepository.findById(id).map(existingBook -> {
+            existingBook.setTitle(book.getTitle());
+            existingBook.setAuthor(book.getAuthor());
+            existingBook.setIsbn(book.getIsbn());
+            existingBook.setPublishedDate(book.getPublishedDate());
+            return bookRepository.save(existingBook);
+        });
     }
 
     public boolean deleteById (String id) {

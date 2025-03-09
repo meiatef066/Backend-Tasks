@@ -2,6 +2,8 @@ package com.example.crud_api.Controller;
 
 import com.example.crud_api.Service.BookService;
 import com.example.crud_api.model.Book;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook( @PathVariable String id, @RequestBody Book book) {
-        Optional<Book> updatedBook = bookService.update(id, book);
+        Optional<Book> updatedBook = bookService.update(Long.valueOf(id), book);
         return updatedBook.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
